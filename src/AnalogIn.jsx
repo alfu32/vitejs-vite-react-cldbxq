@@ -2,21 +2,40 @@ import { useState, useEffect, useRef } from 'react';
 import './AnalogIn.css';
 import { humanReadout } from './human-numbers';
 
+function random({ min = 0, max = 100 }) {
+  return Math.random() * (max - min) - min;
+}
+function randomSeries({ start = 0, min = 0, max = 100, granularity = 0.01 }) {
+  let val = start + (Math.random() * 2 * max - 2 * min) * granularity;
+  while (val >= max && val <= min) {
+    val = start + (Math.random() * 2 * max - 2 * min) * granularity;
+  }
+  return val;
+}
+
 function useRandomReading({ min = 0, max = 100 }) {
   const [analogIn, setAnalogIn] = useState(0);
   setTimeout(() => {
-    setAnalogIn(Math.random() * (max - min) - min);
+    setAnalogIn(random({ min, max }));
   }, 1000);
   useEffect(() => {
     // Update count to be 5 after timeout is scheduled
     setTimeout(() => {
-      setAnalogIn(Math.random() * (max - min) - min);
+      setAnalogIn(random({ min, max }));
     }, 1000);
   }, []);
   return [analogIn];
 }
 
-function useInterval(callback, delay) {
+function delayed(cb, delay) {
+  return Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(cb());
+    });
+  });
+}
+
+function usePoll(callback, delay) {
   const savedCallback = useRef();
 
   useEffect(() => {
@@ -37,7 +56,10 @@ function useInterval(callback, delay) {
 }
 
 function AnalogIn({ id }) {
-  const [reading] = useRandomReading({ min: -3.3, max: 3.3 });
+  const [reading, setReading] = useState(0);
+  usePoll(() => {
+    setReading(randomSeries({ min: 0, max: 3.3, granularity: 0.001 }));
+  }, 100);
   return (
     <div className="AnalogIn">
       <h4 style={{ display: 'inline-block' }}>Analog In({id})</h4>
