@@ -8,7 +8,7 @@ import AnalogIn from './AnalogIn';
 function App() {
   return (
     <div className="App">
-      <AnalogIn id="A0" pinValue={analogIn} />
+      <AnalogIn id="A0" />
       <PwmOut id="D0" />
       <PwmOut id="D1" />
       <PwmOut id="D2" />
