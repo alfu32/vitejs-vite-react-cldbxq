@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import './PinControl.css';
+import './PwmOut.css';
 
-function PinControl({ id }) {
+function PwmOut({ id }) {
   const [pinValue, setPinValue] = useState(10);
   function pinUiValueChanged(e) {
-    console.log(e);
+    console.log(e.target.value);
+    setPinValue(e.target.value);
   }
   return (
-    <div className="PinControl">
-      <h4 style={{ display: 'inline-block' }}>Pin:{id}</h4>
+    <div className="PwmOut">
+      <h4 style={{ display: 'inline-block' }}>PWM({id})</h4>
       <input
         type="range"
         min="-100"
@@ -17,9 +18,9 @@ function PinControl({ id }) {
         defaultValue={pinValue}
         onChange={pinUiValueChanged}
       />
-      {pinValue}
+      {pinValue}%
     </div>
   );
 }
 
-export default PinControl;
+export default PwmOut;
