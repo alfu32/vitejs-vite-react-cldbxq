@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './AnalogIn.css';
 import { humanReadout } from './human-numbers';
 
@@ -14,6 +14,26 @@ function useRandomReading({ min = 0, max = 100 }) {
     }, 1000);
   }, []);
   return [analogIn];
+}
+
+function useInterval(callback, delay) {
+  const savedCallback = useRef();
+
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay != null) {
+      const id = setInterval(tick, delay);
+      return () => {
+        clearInterval(id);
+      };
+    }
+  }, [callback, delay]);
 }
 
 function AnalogIn({ id }) {
