@@ -67,7 +67,7 @@ export function humanReadout2({ value, unit = 'bytes' }) {
 export function human({ value, unit = 'bytes' }) {
   let exponentDiv = -18;
   let root = value * Math.pow(10, 18);
-  for (; root < 1; root = root / 10) {
+  for (; root > 1; root = root / 10) {
     exponentDiv++;
   }
   for (; root % 3 == 0; root = root * 10) {

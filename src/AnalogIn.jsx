@@ -13,20 +13,6 @@ function randomSeries({ start = 0, min = 0, max = 100, granularity = 0.01 }) {
   return val;
 }
 
-function useRandomReading({ min = 0, max = 100 }) {
-  const [analogIn, setAnalogIn] = useState(0);
-  setTimeout(() => {
-    setAnalogIn(random({ min, max }));
-  }, 1000);
-  useEffect(() => {
-    // Update count to be 5 after timeout is scheduled
-    setTimeout(() => {
-      setAnalogIn(random({ min, max }));
-    }, 1000);
-  }, []);
-  return [analogIn];
-}
-
 function delayed(cb, delay) {
   return Promise((resolve, reject) => {
     setTimeout(() => {
