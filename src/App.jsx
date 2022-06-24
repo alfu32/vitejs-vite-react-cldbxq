@@ -6,19 +6,6 @@ import PwmOut from './PwmOut';
 import AnalogIn from './AnalogIn';
 
 function App() {
-  const [analogIn, setAnalogIn] = useState(0);
-  const [countInTimeout, setCountInTimeout] = useState(0);
-
-  setTimeout(() => {
-    setAnalogIn(Math.random() * 3.3);
-  }, 1000);
-  useEffect(() => {
-    // Update count to be 5 after timeout is scheduled
-    setTimeout(() => {
-      setAnalogIn(Math.random() * 3.3);
-    }, 1000);
-  }, []);
-
   return (
     <div className="App">
       <AnalogIn id="A0" pinValue={analogIn} />
