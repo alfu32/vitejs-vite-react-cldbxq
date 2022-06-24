@@ -1,3 +1,4 @@
+const prefixes = 'fapnum kMGTPE'.split('');
 const prefixExponentMap = {
   '-18': 'a',
   '-17': 'a',
@@ -65,14 +66,11 @@ export function humanReadout2({ value, unit = 'bytes' }) {
   return `${root.toFixed(2)}${prefix}${unit}`; //`${sign}${(absValue / normalizerValue).toFixed(2) + prefix + unit}`;
 }
 export function human({ value, unit = 'bytes' }) {
-  let exponentDiv = -18;
+  let exponentDiv = 0;
   let root = value * Math.pow(10, 18);
-  for (; root > 1; root = root / 10) {
-    exponentDiv++;
+  for (; root > 1; root = root / 1000) {
+    exponentDiv += 3;
   }
-  for (; root % 3 == 0; root = root * 10) {
-    exponentDiv--;
-  }
-  const prefix = prefixExponentMap[exponentDiv];
-  return `${root.toFixed(0)}${prefix}${unit}`; //`${sign}${(absValue / normalizerValue).toFixed(2) + prefix + unit}`;
+  const prefix = prefixes[exponentDiv];
+  return `${value.toFixed(1)}${root.toFixed(0)}${prefix}${unit}`; //`${sign}${(absValue / normalizerValue).toFixed(2) + prefix + unit}`;
 }
