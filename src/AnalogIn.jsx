@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import './AnalogIn.css';
-import { humanReadout, human } from './human-numbers';
+import { human } from './human-numbers';
 
 function random({ min = 0, max = 100 }) {
   return Math.random() * (max - min) - min;
@@ -50,7 +50,8 @@ function AnalogIn({ id }) {
     <div className="AnalogIn">
       <h4 style={{ display: 'inline-block' }}>Analog In({id})</h4>
       <input type="range" min="0" max="3.3" step="0.001" value={reading} />
-      {human({ value: reading, unit: 'V' })}
+      <pre style={{minWidth:'10em',maxWidth:'10em',display:'inline-block'}}>{human({ value: reading, unit: 'V' })}</pre>
+      <br/>{reading.toFixed(6)}
     </div>
   );
 }
